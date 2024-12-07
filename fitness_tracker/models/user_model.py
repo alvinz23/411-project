@@ -3,6 +3,9 @@ from fitness_tracker.utils.sql_utils import get_db_connection
 import hashlib
 import os
 
+from fitness_tracker.utils.sql_utils import initialize_database
+
+initialize_database()
 
 def hash_password(password: str, salt: str) -> str:
     """Hashes the password with the given salt."""
