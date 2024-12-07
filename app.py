@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from fitness_tracker.models.user_model import create_user, authenticate_user, change_password
 
+
 app = Flask(__name__)
 
 @app.route('/create-account', methods=['POST'])
@@ -47,5 +48,15 @@ def update_password():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+
+
+@app.route('/')
+def home():
+    return "Welcome to the Fitness Tracker App!"
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+
