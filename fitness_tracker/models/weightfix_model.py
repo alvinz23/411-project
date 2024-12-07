@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 
-from meal_max.utils.logger import configure_logger
+from fitness_tracker.utils.logger import configure_logger
 
 
 
