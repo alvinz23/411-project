@@ -56,3 +56,7 @@ def change_password(username: str, new_password: str) -> None:
             UPDATE users SET salt = ?, hashed_password = ? WHERE username = ?
         """, (salt, hashed_password, username))
         conn.commit()
+
+        # Check if any rows were updated
+        if cursor.rowcount == 0:
+            raise ValueError(f"User '{username}' does not exist.")

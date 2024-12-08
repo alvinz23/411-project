@@ -1,5 +1,9 @@
 import sqlite3
 
+
+DB_PATH = "fitness_tracker.db"
+
+
 def get_db_connection():
     """Gets a connection to the SQLite database."""
     return sqlite3.connect("fitness_tracker.db")

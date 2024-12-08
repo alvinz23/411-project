@@ -1,6 +1,13 @@
 from flask import Flask, request, jsonify
 from fitness_tracker.models.user_model import create_user, authenticate_user, change_password
-
+from fitness_tracker.models.workout_model import (
+    check_workout_in_api,
+    add_workout_to_memory,
+    get_workouts,
+    update_workout,
+    delete_workout,
+    get_deleted_workouts,
+)
 
 app = Flask(__name__)
 
@@ -55,6 +62,49 @@ def update_password():
 def home():
     return "Welcome to the Fitness Tracker App!"
 
+
+# Workout Management Routes
+@app.route('/workouts/<int:workout_id>', methods=['POST'])
+def add_workout(workout_id):
+    result = add_workout_to_memory(workout_id)
+    if result["status"] == "success":
+        return jsonify(result), 201
+    else:
+        return jsonify(result), 400
+
+
+@app.route('/workouts', methods=['GET'])
+def list_workouts():
+    return jsonify(get_workouts()), 200
+
+
+@app.route('/workouts/<int:workout_id>', methods=['PUT'])
+def update_workout_route(workout_id):
+    data = request.json
+    new_name = data.get("name")
+    new_description = data.get("description")
+    if not new_name or not new_description:
+        return jsonify({"error": "Name and description are required."}), 400
+
+    result = update_workout(workout_id, new_name, new_description)
+    if result["status"] == "success":
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 404
+
+
+@app.route('/workouts/<int:workout_id>', methods=['DELETE'])
+def delete_workout_route(workout_id):
+    result = delete_workout(workout_id)
+    if result["status"] == "success":
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 404
+
+
+@app.route('/workouts/deleted', methods=['GET'])
+def list_deleted_workouts():
+    return jsonify(get_deleted_workouts()), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
