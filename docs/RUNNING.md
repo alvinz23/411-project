@@ -12,8 +12,11 @@ Install Python (3.9 or above).
    git clone <repo-url>
    cd <project-directory>
 3. Build docker image with
- docker build -t fitness-tracker-app .
-4. docker run -p 5000:5000 fitness-tracker-app
+   docker build -t fitness-tracker-app .
+4. Run with
+   docker run -p 5000:5000 fitness-tracker-app
+5. Open new terminal and run
+   ./smoketest.sh 
 
 ## Documentation
 For setup, environment variables, and smoke test output, see the [`docs/`](./docs/) directory.
@@ -26,10 +29,14 @@ For setup, environment variables, and smoke test output, see the [`docs/`](./doc
 
 curl -X POST -H "Content-Type: application/json" -d '{"username": "testuser", "password": "password123"}' http://127.0.0.1:5000/create-account 
 
-Should create an account successfully, restart if you want to unit test with a new userbase. 
+Should create an account successfully, restart if you want to unit test with a new userbase.
+
+To test user_model.py 
 
 4. python -m unittest tests/test_user_model.py
 
-To test user_model.py 
+Warnings raised on purpose to account for incorrectly changing passwords on a user that does not exist.
+
+To test workout_model.py 
 
 5. python -m unittest tests/test_workout_model.py
