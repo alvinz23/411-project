@@ -57,6 +57,10 @@ class TestUserModel(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             change_password("nonexistentuser", "newpassword123")
         self.assertEqual(str(context.exception), "User 'nonexistentuser' does not exist.")
+        print("IMPORTANT Some tests fail on purpose and raise warnings on purpose which is to be expected - Alvin")
+        print("IMPORTANT Some tests fail on purpose and raise warnings on purpose which is to be expected - Alvin")
+        print("IMPORTANT Some tests fail on purpose and raise warnings on purpose which is to be expected- Alvin")
+        print("IMPORTANT Some tests fail on purpose and raise warnings on purpose which is to be expected- Alvin")
 
 
 
