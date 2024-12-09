@@ -12,17 +12,26 @@ WGER_API_BASE_URL = "https://wger.de/api/v2/exercise/"
 
 def check_workout_in_api(workout_id):
     """
-    Checks if an exercise exists in the wger API by its ID.
+    Check if an exercise exists in the Wger API by its ID.
+
+    Sends a request to the Wger API to fetch workout details. If the workout exists,
+    it returns a cleaned dictionary containing relevant details. If the workout
+    does not exist, returns None.
 
     Args:
         workout_id (int): The ID of the workout to check.
 
     Returns:
-        dict: A cleaned dictionary containing workout details if the workout exists.
+        dict: A dictionary with the following keys if the workout exists:
+            - id (int): The workout's unique ID.
+            - name (str): The name of the workout.
+            - description (str): A cleaned description of the workout.
+            - muscles (list): A list of muscle IDs targeted by the workout.
+            - equipment (list): A list of equipment IDs required for the workout.
         None: If the workout is not found in the API.
 
     Raises:
-        requests.exceptions.RequestException: If the API request fails.
+        requests.exceptions.RequestException: If there is an error with the API request.
     """
     logging.info(f"Fetching workout {workout_id} from wger API.")
     url = f"{WGER_API_BASE_URL}{workout_id}/?language=2"
@@ -46,13 +55,19 @@ def check_workout_in_api(workout_id):
 
 def add_workout_to_memory(workout_id):
     """
-    Adds a workout to in-memory storage after verifying it exists in the wger API.
+    Add a workout to memory after verifying it exists.
+
+    Checks if a workout exists in the Wger API by its ID. If the workout is valid
+    and not already stored, it is added to the `stored_workouts` dictionary.
 
     Args:
         workout_id (int): The ID of the workout to add.
 
     Returns:
-        dict: A dictionary indicating the status and details of the operation.
+        dict: A dictionary with the operation's status and details:
+            - status (str): Either "success" or "error".
+            - message (str): Description of the operation outcome.
+            - workout (dict, optional): The workout details if the operation succeeds.
 
     Raises:
         None
@@ -74,13 +89,16 @@ def add_workout_to_memory(workout_id):
 
 def get_workouts():
     """
-    Retrieves all workouts currently stored in memory.
+    Retrieve all stored workouts.
+
+    Fetches all workouts currently stored in the `stored_workouts` dictionary.
 
     Args:
         None
 
     Returns:
-        dict: A dictionary containing a list of all stored workouts.
+        dict: A dictionary containing:
+            - stored_workouts (list): A list of all stored workout details.
 
     Raises:
         None
@@ -90,7 +108,9 @@ def get_workouts():
 
 def update_workout(workout_id, new_name, new_description):
     """
-    Updates the details of a workout in memory.
+    Update workout details.
+
+    Updates the name and description of a stored workout identified by its ID.
 
     Args:
         workout_id (int): The ID of the workout to update.
@@ -98,7 +118,9 @@ def update_workout(workout_id, new_name, new_description):
         new_description (str): The updated description for the workout.
 
     Returns:
-        dict: A dictionary indicating the status and details of the operation.
+        dict: A dictionary with the operation's status and details:
+            - status (str): Either "success" or "error".
+            - message (str): Description of the operation outcome.
 
     Raises:
         None
@@ -116,13 +138,18 @@ def update_workout(workout_id, new_name, new_description):
 
 def delete_workout(workout_id):
     """
-    Deletes a workout from memory and logs it in deleted workouts.
+    Delete a workout and log it in deleted_workouts.
+
+    Removes the specified workout from `stored_workouts` and appends it to
+    the `deleted_workouts` list.
 
     Args:
         workout_id (int): The ID of the workout to delete.
 
     Returns:
-        dict: A dictionary indicating the status and details of the operation.
+        dict: A dictionary with the operation's status and details:
+            - status (str): Either "success" or "error".
+            - message (str): Description of the operation outcome.
 
     Raises:
         None
@@ -140,13 +167,16 @@ def delete_workout(workout_id):
 
 def get_deleted_workouts():
     """
-    Retrieves all workouts that have been deleted and logged.
+    Retrieve all deleted workouts.
+
+    Fetches all workouts that have been removed from `stored_workouts` and logged in `deleted_workouts`.
 
     Args:
         None
 
     Returns:
-        dict: A dictionary containing a list of all deleted workouts.
+        dict: A dictionary containing:
+            - deleted_workouts (list): A list of all deleted workout details.
 
     Raises:
         None
