@@ -13,6 +13,20 @@ app = Flask(__name__)
 
 @app.route('/create-account', methods=['POST'])
 def create_account():
+    """
+    Creates a new user account.
+
+    Args:
+        None (expects a JSON payload with 'username' and 'password' fields).
+
+    Returns:
+        Response: JSON response with:
+            - Success message and status code 201 if the account is created successfully.
+            - Error message and status code 400 if validation fails or a duplicate username exists.
+
+    Raises:
+        ValueError: If the username is already taken.
+    """
     data = request.json
     username = data.get('username')
     password = data.get('password')
@@ -28,6 +42,20 @@ def create_account():
 
 @app.route('/login', methods=['POST'])
 def login():
+    """
+    Authenticates a user login.
+
+    Args:
+        None (expects a JSON payload with 'username' and 'password' fields).
+
+    Returns:
+        Response: JSON response with:
+            - Success message and status code 200 if authentication is successful.
+            - Error message and status code 401 if authentication fails.
+
+    Raises:
+        None
+    """
     data = request.json
     username = data.get('username')
     password = data.get('password')
@@ -42,6 +70,20 @@ def login():
 
 @app.route('/update-password', methods=['POST'])
 def update_password():
+    """
+    Updates a user's password.
+
+    Args:
+        None (expects a JSON payload with 'username' and 'new_password' fields).
+
+    Returns:
+        Response: JSON response with:
+            - Success message and status code 200 if the password is updated successfully.
+            - Error message and status code 500 if an error occurs during the update.
+
+    Raises:
+        Exception: If the password update process encounters an error.
+    """
     data = request.json
     username = data.get('username')
     new_password = data.get('new_password')
@@ -60,12 +102,38 @@ def update_password():
 
 @app.route('/')
 def home():
+    """
+    Displays the home page of the Fitness Tracker app.
+
+    Args:
+        None
+
+    Returns:
+        Response: Plain text message welcoming the user to the app.
+
+    Raises:
+        None
+    """
     return "Welcome to the Fitness Tracker App!"
 
 
 # Workout Management Routes
 @app.route('/workouts/<int:workout_id>', methods=['POST'])
 def add_workout(workout_id):
+    """
+    Adds a workout to memory.
+
+    Args:
+        workout_id (int): The ID of the workout to add.
+
+    Returns:
+        Response: JSON response with:
+            - The workout details and status code 201 if successful.
+            - Error message and status code 400 if the addition fails.
+
+    Raises:
+        None
+    """
     result = add_workout_to_memory(workout_id)
     if result["status"] == "success":
         return jsonify(result), 201
@@ -75,11 +143,37 @@ def add_workout(workout_id):
 
 @app.route('/workouts', methods=['GET'])
 def list_workouts():
+    """
+    Retrieves all workouts stored in memory.
+
+    Args:
+        None
+
+    Returns:
+        Response: JSON response with a list of all stored workouts and status code 200.
+
+    Raises:
+        None
+    """
     return jsonify(get_workouts()), 200
 
 
 @app.route('/workouts/<int:workout_id>', methods=['PUT'])
 def update_workout_route(workout_id):
+    """
+    Updates a workout's details.
+
+    Args:
+        workout_id (int): The ID of the workout to update.
+
+    Returns:
+        Response: JSON response with:
+            - Success message and status code 200 if the update is successful.
+            - Error message and status code 404 if the workout is not found.
+
+    Raises:
+        None
+    """
     data = request.json
     new_name = data.get("name")
     new_description = data.get("description")
@@ -95,6 +189,20 @@ def update_workout_route(workout_id):
 
 @app.route('/workouts/<int:workout_id>', methods=['DELETE'])
 def delete_workout_route(workout_id):
+    """
+    Deletes a workout from memory.
+
+    Args:
+        workout_id (int): The ID of the workout to delete.
+
+    Returns:
+        Response: JSON response with:
+            - Success message and status code 200 if the deletion is successful.
+            - Error message and status code 404 if the workout is not found.
+
+    Raises:
+        None
+    """
     result = delete_workout(workout_id)
     if result["status"] == "success":
         return jsonify(result), 200
@@ -104,6 +212,18 @@ def delete_workout_route(workout_id):
 
 @app.route('/workouts/deleted', methods=['GET'])
 def list_deleted_workouts():
+    """
+    Retrieves all workouts that have been deleted and logged.
+
+    Args:
+        None
+
+    Returns:
+        Response: JSON response with a list of deleted workouts and status code 200.
+
+    Raises:
+        None
+    """
     return jsonify(get_deleted_workouts()), 200
 
 if __name__ == "__main__":

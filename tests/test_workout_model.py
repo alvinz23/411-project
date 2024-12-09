@@ -12,15 +12,36 @@ from fitness_tracker.models.workout_model import (
 )
 
 class TestWorkoutModel(unittest.TestCase):
-
+    """
+    Unit tests for the user model functions in the fitness tracker application.
+    """
     def setUp(self):
-        """Clear stored and deleted workouts before each test."""
+        """
+        Clears stored and deleted workouts before each test. 
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
         stored_workouts.clear()
         deleted_workouts.clear()
 
     @patch("fitness_tracker.models.workout_model.requests.get")
     def test_check_workout_in_api_success(self, mock_get):
-        """Test if a valid workout is fetched and cleaned successfully."""
+        """
+        Tests if a valid workout is fetched and cleaned successfully.
+
+        Args:
+            mock_get (Mock): The mocked requests.get method.
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the workout data does not match the expected values.
+        """
         mock_response = {
             "id": 1,
             "name": "Push-Up",
@@ -41,14 +62,36 @@ class TestWorkoutModel(unittest.TestCase):
 
     @patch("fitness_tracker.models.workout_model.requests.get")
     def test_check_workout_in_api_not_found(self, mock_get):
-        """Test if an invalid workout ID returns None."""
+        """
+        Tests if an invalid workout ID returns None.
+
+        Args:
+            mock_get (Mock): The mocked requests.get method.
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the workout is not None for an invalid ID.
+        """
         mock_get.return_value.status_code = 404
 
         workout = check_workout_in_api(999)
         self.assertIsNone(workout)
 
     def test_add_workout_to_memory(self):
-        """Test adding a workout to memory."""
+        """
+        Tests adding a workout to memory.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the workout is not added to memory as expected.
+        """
         workout = {
             "id": 1,
             "name": "Push-Up",
@@ -61,7 +104,18 @@ class TestWorkoutModel(unittest.TestCase):
         self.assertEqual(stored_workouts[1], workout)
 
     def test_get_workouts(self):
-        """Test retrieving all stored workouts."""
+        """
+        Tests retrieving all stored workouts.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the retrieved workouts do not match the stored workouts.
+        """
         workout = {
             "id": 1,
             "name": "Push-Up",
@@ -75,7 +129,18 @@ class TestWorkoutModel(unittest.TestCase):
         self.assertEqual(workouts["stored_workouts"][0], workout)
 
     def test_update_workout(self):
-        """Test updating a workout's name and description."""
+        """
+        Tests updating a workout's name and description.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the workout is not updated as expected.
+        """
         workout = {
             "id": 1,
             "name": "Push-Up",
@@ -90,7 +155,18 @@ class TestWorkoutModel(unittest.TestCase):
         self.assertEqual(stored_workouts[1]["description"], "Updated description")
 
     def test_delete_workout(self):
-        """Test deleting a workout."""
+        """
+        Tests deleting a workout.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the workout is not deleted or logged as expected.
+        """
         workout = {
             "id": 1,
             "name": "Push-Up",
@@ -105,7 +181,18 @@ class TestWorkoutModel(unittest.TestCase):
         self.assertIn(workout, deleted_workouts)
 
     def test_get_deleted_workouts(self):
-        """Test retrieving all deleted workouts."""
+        """
+        Tests retrieving all deleted workouts.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Raises:
+            AssertionError: If the retrieved deleted workouts do not match the logged workouts.
+        """
         workout = {
             "id": 1,
             "name": "Push-Up",

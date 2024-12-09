@@ -13,7 +13,19 @@ def hash_password(password: str, salt: str) -> str:
 
 
 def create_user(username: str, password: str) -> None:
-    """Creates a new user in the database."""
+    """
+    Creates a new user and stores their credentials securely in the database.
+
+    Args:
+        username (str): The username of the new user.
+        password (str): The plain-text password for the user.
+
+    Returns:
+        dict: A dictionary containing the user ID and username upon successful creation.
+
+    Raises:
+        sqlite3.Error: If there is an issue with the database connection or insertion.
+    """
     salt = os.urandom(16).hex()  # Generate a random salt
     hashed_password = hash_password(password, salt)
 
@@ -30,7 +42,19 @@ def create_user(username: str, password: str) -> None:
 
 
 def authenticate_user(username: str, password: str) -> bool:
-    """Authenticates a user by checking the provided password."""
+    """
+    Authenticates a user by validating their credentials.
+
+    Args:
+        username (str): The username of the user attempting to log in.
+        password (str): The plain-text password entered by the user.
+
+    Returns:
+        bool: True if authentication is successful, False otherwise.
+
+    Raises:
+        sqlite3.Error: If there is an issue with the database query.
+    """
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute("""
@@ -46,7 +70,21 @@ def authenticate_user(username: str, password: str) -> bool:
 
 
 def change_password(username: str, new_password: str) -> None:
-    """Allows a user to change their password."""
+    """
+    Changes the password for a user after verifying the old password.
+
+    Args:
+        user_id (int): The unique identifier of the user.
+        old_password (str): The current password of the user.
+        new_password (str): The new password to be set.
+
+    Returns:
+        bool: True if the password was successfully updated, False otherwise.
+
+    Raises:
+        ValueError: If the old password does not match the stored password.
+        sqlite3.Error: If there is an issue with the database update.
+    """
     salt = os.urandom(16).hex()  # Generate a new salt
     hashed_password = hash_password(new_password, salt)
 
