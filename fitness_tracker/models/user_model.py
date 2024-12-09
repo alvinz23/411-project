@@ -10,11 +10,14 @@ initialize_database()
 
 def hash_password(password: str, salt: str) -> str:
     """
-    Hashes the password with the given salt.
+    Hash a password using a salt.
+
+    Combines the provided salt and password, then applies SHA-256 hashing to generate
+    a secure hash for storage.
 
     Args:
-        password (str): The plain text password to be hashed.
-        salt (str): The salt to be used in the hashing process.
+        password (str): The plain text password to hash.
+        salt (str): A randomly generated salt to add to the password.
 
     Returns:
         str: The hashed password as a hexadecimal string.
@@ -27,7 +30,10 @@ def hash_password(password: str, salt: str) -> str:
 
 def create_user(username: str, password: str) -> None:
     """
-    Creates a new user in the database.
+    Create a new user in the database.
+
+    Generates a random salt and hashes the provided password for secure storage.
+    Inserts the user, salt, and hashed password into the database.
 
     Args:
         username (str): The username of the new user.
@@ -38,6 +44,7 @@ def create_user(username: str, password: str) -> None:
 
     Raises:
         ValueError: If the username is already taken.
+        sqlite3.Error: If there is a database error during user creation.
     """
     logging.info(f"Attempting to create user: {username}")
     salt = os.urandom(16).hex()  # Generate a random salt
@@ -59,14 +66,17 @@ def create_user(username: str, password: str) -> None:
 
 def authenticate_user(username: str, password: str) -> bool:
     """
-    Authenticates a user by checking the provided password.
+    Authenticate a user by verifying their password.
+
+    Retrieves the stored salt and hashed password for the user, hashes the provided
+    password with the stored salt, and compares the result to the stored hash.
 
     Args:
         username (str): The username of the user attempting to log in.
         password (str): The plain text password provided by the user.
 
     Returns:
-        bool: True if the authentication is successful, False otherwise.
+        bool: True if authentication is successful, False otherwise.
 
     Raises:
         None
@@ -94,7 +104,10 @@ def authenticate_user(username: str, password: str) -> bool:
 
 def change_password(username: str, new_password: str) -> None:
     """
-    Allows a user to change their password.
+    Change a user's password.
+
+    Generates a new random salt, hashes the new password, and updates the user's
+    stored salt and hashed password in the database.
 
     Args:
         username (str): The username of the user changing their password.
@@ -105,6 +118,7 @@ def change_password(username: str, new_password: str) -> None:
 
     Raises:
         ValueError: If the username does not exist in the database.
+        sqlite3.Error: If there is a database error during the update.
     """
     logging.info(f"Changing password for user: {username}")
     salt = os.urandom(16).hex()  # Generate a new salt
