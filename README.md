@@ -1,4 +1,4 @@
-Fitness Tracker - This application stores user account info and allows users to set fitness goals, log their workouts, and track their progress.
+Fitness Tracker - This application stores user account info and allows users to log, update, and delete their workouts, as well as track their progress.
 
 Route Documentation
 
