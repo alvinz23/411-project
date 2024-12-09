@@ -1,1 +1,1 @@
-from .weightfix_model import WeightFix
+from .user_model import create_user, authenticate_user, change_password
