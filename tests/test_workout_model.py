@@ -104,7 +104,7 @@ class TestWorkoutModel(unittest.TestCase):
         workouts = get_workouts()
         self.assertEqual(len(workouts["stored_workouts"]), 0)
 
-    def test_get_workouts_mulit(self):
+    def test_get_workouts_multi(self):
         """Test retrieving all stored workouts with multiple entries."""
         workout = {
             "id": 1,
