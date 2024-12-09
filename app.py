@@ -151,9 +151,9 @@ def add_workout(workout_id):
     """
     result = add_workout_to_memory(workout_id)
     if result["status"] == "success":
-        return jsonify(result), 201
+        return jsonify({"message": "Workout added successfully."}), 201
     else:
-        return jsonify(result), 400
+        return jsonify({"message": "Workout not found or already exists."}), 400
 
 
 @app.route('/workouts', methods=['GET'])
@@ -195,9 +195,9 @@ def update_workout_route(workout_id):
 
     result = update_workout(workout_id, new_name, new_description)
     if result["status"] == "success":
-        return jsonify(result), 200
+        return jsonify({"message": "Workout updated successfully."}), 200
     else:
-        return jsonify(result), 404
+        return jsonify({"message": "Workout not found."}), 404
 
 
 @app.route('/workouts/<int:workout_id>', methods=['DELETE'])
@@ -218,9 +218,9 @@ def delete_workout_route(workout_id):
     """
     result = delete_workout(workout_id)
     if result["status"] == "success":
-        return jsonify(result), 200
+        return jsonify({"message": "Workout deleted successfully."}), 200
     else:
-        return jsonify(result), 404
+        return jsonify({"message": "Workout not found."}), 404
 
 
 @app.route('/workouts/deleted', methods=['GET'])
