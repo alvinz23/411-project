@@ -11,7 +11,19 @@ WGER_API_BASE_URL = "https://wger.de/api/v2/exercise/"
 
 
 def check_workout_in_api(workout_id):
-    """Check if an exercise exists in the wger API by ID."""
+    """
+    Checks if an exercise exists in the wger API by its ID.
+
+    Args:
+        workout_id (int): The ID of the workout to check.
+
+    Returns:
+        dict: A cleaned dictionary containing workout details if the workout exists.
+        None: If the workout is not found in the API.
+
+    Raises:
+        requests.exceptions.RequestException: If the API request fails.
+    """
     logging.info(f"Fetching workout {workout_id} from wger API.")
     url = f"{WGER_API_BASE_URL}{workout_id}/?language=2"
     response = requests.get(url)
@@ -33,8 +45,19 @@ def check_workout_in_api(workout_id):
 
 
 def add_workout_to_memory(workout_id):
+    """
+    Adds a workout to in-memory storage after verifying it exists in the wger API.
+
+    Args:
+        workout_id (int): The ID of the workout to add.
+
+    Returns:
+        dict: A dictionary indicating the status and details of the operation.
+
+    Raises:
+        None
+    """
     logging.info(f"Attempting to add workout {workout_id} to memory.")
-    """Add a workout to memory after verifying it exists."""
     if workout_id in stored_workouts:
         logging.warning(f"Workout {workout_id} already exists in memory.")
         return {"status": "error", "message": "Workout already exists in memory."}
@@ -50,12 +73,36 @@ def add_workout_to_memory(workout_id):
 
 
 def get_workouts():
-    """Retrieve all stored workouts."""
+    """
+    Retrieves all workouts currently stored in memory.
+
+    Args:
+        None
+
+    Returns:
+        dict: A dictionary containing a list of all stored workouts.
+
+    Raises:
+        None
+    """
     return {"stored_workouts": list(stored_workouts.values())}
 
 
 def update_workout(workout_id, new_name, new_description):
-    """Update workout details."""
+    """
+    Updates the details of a workout in memory.
+
+    Args:
+        workout_id (int): The ID of the workout to update.
+        new_name (str): The updated name for the workout.
+        new_description (str): The updated description for the workout.
+
+    Returns:
+        dict: A dictionary indicating the status and details of the operation.
+
+    Raises:
+        None
+    """
     logging.info(f"Updating workout {workout_id}.")
     if workout_id in stored_workouts:
         stored_workouts[workout_id]["name"] = new_name
@@ -68,7 +115,18 @@ def update_workout(workout_id, new_name, new_description):
 
 
 def delete_workout(workout_id):
-    """Delete a workout and log it in deleted_workouts."""
+    """
+    Deletes a workout from memory and logs it in deleted workouts.
+
+    Args:
+        workout_id (int): The ID of the workout to delete.
+
+    Returns:
+        dict: A dictionary indicating the status and details of the operation.
+
+    Raises:
+        None
+    """
     logging.info(f"Attempting to delete workout {workout_id}.")
     if workout_id in stored_workouts:
         deleted_workouts.append(stored_workouts[workout_id])
@@ -81,6 +139,17 @@ def delete_workout(workout_id):
 
 
 def get_deleted_workouts():
-    """Retrieve all deleted workouts."""
+    """
+    Retrieves all workouts that have been deleted and logged.
+
+    Args:
+        None
+
+    Returns:
+        dict: A dictionary containing a list of all deleted workouts.
+
+    Raises:
+        None
+    """
     logging.info("Fetching all deleted workouts.")
     return {"deleted_workouts": deleted_workouts}
