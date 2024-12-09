@@ -147,8 +147,10 @@ def add_workout(workout_id):
     """ 
     result = add_workout_to_memory(workout_id)
     if result["status"] == "success":
+        logger.info("Workout added successfully.")
         return jsonify(result), 201
     else:
+        logger.error("Failed to add workout.")
         return jsonify(result), 400
 
 
@@ -166,6 +168,7 @@ def list_workouts():
     Raises:
         None
     """
+    logger.info("Listing workouts:")
     return jsonify(get_workouts()), 200
 
 
@@ -193,8 +196,10 @@ def update_workout_route(workout_id):
 
     result = update_workout(workout_id, new_name, new_description)
     if result["status"] == "success":
+        logger.info("Workout updated successfully.")
         return jsonify(result), 200
     else:
+        logger.error("Failed to update workout.")
         return jsonify(result), 404
 
 
@@ -216,8 +221,10 @@ def delete_workout_route(workout_id):
     """
     result = delete_workout(workout_id)
     if result["status"] == "success":
+        logger.info("Workout deleted successfully.")
         return jsonify(result), 200
     else:
+        logger.error("Failed to delete workout.")
         return jsonify(result), 404
 
 
@@ -235,12 +242,14 @@ def list_deleted_workouts():
     Raises:
         None
     """
+    logger.info("List of deleted workouts:")
     return jsonify(get_deleted_workouts()), 200
 
 
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check route to verify the app is running."""
+    logger.info("App is healthy.")
     return jsonify({"status": "healthy"}), 200
 
 
