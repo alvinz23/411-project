@@ -75,8 +75,7 @@ def add_workout_to_memory(workout_id):
     logging.info(f"Attempting to add workout {workout_id} to memory.")
     if workout_id in stored_workouts:
         logging.warning(f"Workout {workout_id} already exists in memory.")
-        return {"status": "error", "message": "Workout already exists in memory."}
-
+        raise ValueError("Workout already exists in memory.")
     workout = check_workout_in_api(workout_id)
     if workout:
         stored_workouts[workout_id] = workout
