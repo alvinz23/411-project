@@ -83,14 +83,14 @@ Route: /workouts/<int:workout_id>
 - Response Format: JSON
     - Success Response Example:
         - Code 201
-        - Content: {"status == success"}
+        - Content: {"message": "Workout added successfully."}
 - Example Request:
     {
         "workout_id": 85
     }
 - Example Response:
     {
-        "status == success"
+        "message": "Workout added successfully."
         "status": "201"
     }
 
@@ -130,7 +130,7 @@ Route: /workouts/<int:workout_id>
 - Response Format: JSON
     - Success Response Example:
         - Code 200
-        - Content: {"status == success"}
+        - Content: {"message": "Workout updated successfully."}
 - Example Request:
     {
         "new_name": "bicep curl"
@@ -138,7 +138,7 @@ Route: /workouts/<int:workout_id>
     }
 - Example Response:
     {
-        "status == success"
+        "message": "Workout updated successfully."
         "status": "200"
     }
 
@@ -151,14 +151,14 @@ Route: /workouts/<int:workout_id>
 - Response Format: JSON
     - Success Response Example:
         - Code 200
-        - Content: {"status == success"}
+        - Content: {"message": "Workout deleted successfully."}
 - Example Request:
     {
         "workout_id": 86
     }
 - Example Response:
     {
-        "status == success"
+        "message": "Workout deleted successfully."
         "status": "200"
     }
 
