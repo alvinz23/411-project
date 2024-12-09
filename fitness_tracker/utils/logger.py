@@ -1,7 +1,18 @@
 import logging
 
 def configure_logger(logger_name: str):
-    """Configures the logger."""
+    """
+    Configures and returns a logger with a specific name.
+
+    Args:
+        logger_name (str): The name of the logger to configure.
+
+    Returns:
+        logging.Logger: The configured logger instance.
+
+    Raises:
+        None
+    """
     logger = logging.getLogger(logger_name)
     if not logger.hasHandlers():
         handler = logging.StreamHandler()
