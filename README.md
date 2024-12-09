@@ -1,5 +1,7 @@
 Fitness Tracker - This application stores user account info and allows users to log, update, and delete their workouts, as well as track their progress.
 
+IMPORTANT - Some IDs arent valid when inputting it since the API does not have certain IDs in there, example of some IDs that the API has is 85 and 86, many more but those two work.
+
 Route Documentation
 
 Route: /create-account
@@ -83,7 +85,7 @@ Route: /workouts/<int:workout_id>
         - Content: {"status == success"}
 - Example Request:
     {
-        "workout_id": 12
+        "workout_id": 85
     }
 - Example Response:
     {
@@ -107,7 +109,7 @@ Route: /workouts
 - Example Response:
     {
         "stored_workouts": " workout = {
-            "id": 1,
+            "id": 85,
             "name": "Push-Up",
             "description": "A bodyweight exercise",
             "muscles": [4],
@@ -151,7 +153,7 @@ Route: /workouts/<int:workout_id>
         - Content: {"status == success"}
 - Example Request:
     {
-        "workout_id": 5
+        "workout_id": 86
     }
 - Example Response:
     {
@@ -175,7 +177,7 @@ Route: /workouts/deleted
 - Example Response:
     {
         "workout = {
-            "id": 1,
+            "id": 85,
             "name": "Push-Up",
             "description": "A bodyweight exercise",
             "muscles": [4],
