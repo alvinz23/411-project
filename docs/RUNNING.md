@@ -22,7 +22,7 @@ Install Python (3.9 or above).
 For setup, environment variables, and smoke test output, see the [`docs/`](./docs/) directory.
 
 
-## UNITTESTING 
+## UNIT TESTING 
 1. Navigate to 411-project 
 2. Run the python app - python app.py
 3. Open a new terminal and run this command to test initially 
@@ -40,3 +40,23 @@ Warnings raised on purpose to account for incorrectly changing passwords on a us
 To test workout_model.py 
 
 5. python -m unittest tests/test_workout_model.py
+
+
+## Full test flow with curl command, make sure python app.py is running and http://127.0.0.1:5000 is active. 
+
+# 1. Add a Workout
+curl -X POST http://127.0.0.1:5000/workouts/85
+
+# 2. List All Stored Workouts
+curl http://127.0.0.1:5000/workouts
+
+# 3. Update the Workout
+curl -X PUT -H "Content-Type: application/json" \
+-d '{"name": "Updated Push-Up", "description": "Updated description for Push-Up."}' \
+http://127.0.0.1:5000/workouts/85
+
+# 4. Delete the Workout
+curl -X DELETE http://127.0.0.1:5000/workouts/85
+
+# 5. View Deleted Workouts
+curl http://127.0.0.1:5000/workouts/deleted
