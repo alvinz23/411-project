@@ -1,6 +1,7 @@
 Fitness Tracker - This application stores user account info and allows users to log, update, and delete their workouts, as well as track their progress.
 
 IMPORTANT - Some IDs arent valid when inputting it since the API does not have certain IDs in there, example of some IDs that the API has is 85 and 86, many more but those two work.
+Also need to build and run DOCKER for smoketests to work. 
 
 Route Documentation
 
