@@ -9,13 +9,37 @@ from fitness_tracker.utils.sql_utils import initialize_database
 initialize_database()
 
 def hash_password(password: str, salt: str) -> str:
-    """Hashes the password with the given salt."""
+    """
+    Hashes the password with the given salt.
+
+    Args:
+        password (str): The plain text password to be hashed.
+        salt (str): The salt to be used in the hashing process.
+
+    Returns:
+        str: The hashed password as a hexadecimal string.
+
+    Raises:
+        None
+    """
     return hashlib.sha256(f"{salt}{password}".encode()).hexdigest()
 
 
 def create_user(username: str, password: str) -> None:
+    """
+    Creates a new user in the database.
+
+    Args:
+        username (str): The username of the new user.
+        password (str): The plain text password for the user.
+
+    Returns:
+        None
+
+    Raises:
+        ValueError: If the username is already taken.
+    """
     logging.info(f"Attempting to create user: {username}")
-    """Creates a new user in the database."""
     salt = os.urandom(16).hex()  # Generate a random salt
     hashed_password = hash_password(password, salt)
 
@@ -34,7 +58,19 @@ def create_user(username: str, password: str) -> None:
 
 
 def authenticate_user(username: str, password: str) -> bool:
-    """Authenticates a user by checking the provided password."""
+    """
+    Authenticates a user by checking the provided password.
+
+    Args:
+        username (str): The username of the user attempting to log in.
+        password (str): The plain text password provided by the user.
+
+    Returns:
+        bool: True if the authentication is successful, False otherwise.
+
+    Raises:
+        None
+    """
     logging.info(f"Authenticating user: {username}")
     with get_db_connection() as conn:
         cursor = conn.cursor()
@@ -57,7 +93,19 @@ def authenticate_user(username: str, password: str) -> bool:
 
 
 def change_password(username: str, new_password: str) -> None:
-    """Allows a user to change their password."""
+    """
+    Allows a user to change their password.
+
+    Args:
+        username (str): The username of the user changing their password.
+        new_password (str): The new plain text password to be set.
+
+    Returns:
+        None
+
+    Raises:
+        ValueError: If the username does not exist in the database.
+    """
     logging.info(f"Changing password for user: {username}")
     salt = os.urandom(16).hex()  # Generate a new salt
     hashed_password = hash_password(new_password, salt)
