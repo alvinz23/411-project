@@ -70,7 +70,7 @@ def add_workout_to_memory(workout_id):
             - workout (dict, optional): The workout details if the operation succeeds.
 
     Raises:
-        None
+        ValueError: If workout is already in memory.
     """
     logging.info(f"Attempting to add workout {workout_id} to memory.")
     if workout_id in stored_workouts:
