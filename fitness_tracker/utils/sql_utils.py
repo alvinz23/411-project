@@ -1,12 +1,14 @@
 import sqlite3
+import os
+from dotenv import load_dotenv
 
 
-DB_PATH = "fitness_tracker.db"
 
+DB_PATH = os.getenv("DB_PATH")
 
 def get_db_connection():
     """Gets a connection to the SQLite database."""
-    return sqlite3.connect("fitness_tracker.db")
+    return sqlite3.connect("DB_PATH")
 
 def initialize_database():
     """Initializes the database with required tables."""

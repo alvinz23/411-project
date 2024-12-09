@@ -10,6 +10,17 @@ from fitness_tracker.models.workout_model import (
 )
 
 app = Flask(__name__)
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.StreamHandler(), 
+    ],
+)
+
 
 @app.route('/create-account', methods=['POST'])
 def create_account():
@@ -106,6 +117,12 @@ def delete_workout_route(workout_id):
 def list_deleted_workouts():
     return jsonify(get_deleted_workouts()), 200
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Health check route to verify the app is running."""
+    return jsonify({"status": "healthy"}), 200
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port=5000)
